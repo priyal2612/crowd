@@ -1,0 +1,8 @@
+fastapi==0.110.0              # Web framework for APIs
+uvicorn==0.29.0               # ASGI server to run FastAPI
+opencv-python==4.9.0.80       # Image processing
+numpy==1.26.4                 # Numerical and matrix operations
+pillow==10.2.0                # Image manipulation (PIL for opening images)
+ultralytics==8.1.26           # YOLOv8 object detection model
+scikit-learn==1.4.1.post1     # DBSCAN clustering for crowd detection
+scipy==1.12.0                 # Provides pdist, squareform for distance calculations

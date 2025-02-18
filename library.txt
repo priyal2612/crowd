@@ -1,0 +1,25 @@
+1. fastapi==0.110.0
+   - Web framework for building APIs
+   - Supports async API requests and real-time image processing
+
+2. uvicorn==0.29.0
+   - ASGI server to run FastAPI applications
+
+3. opencv-python==4.9.0.80
+   - Used for image processing (loading, resizing, drawing bounding boxes)
+
+4. numpy==1.26.4
+   - Used for numerical computations and array handling
+
+5. pillow==10.2.0
+   - Python Imaging Library (PIL) for image opening and processing
+
+6. ultralytics==8.1.26
+   - YOLOv8 object detection model for people detection
+
+7. scikit-learn==1.4.1.post1
+   - Used for DBSCAN clustering to detect dense groups
+
+8. scipy==1.12.0
+   - Provides `pdist` (pairwise distance calculation) and `squareform`
+   - Helps measure distances between detected people for crowd classification

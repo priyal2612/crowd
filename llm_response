@@ -1,0 +1,18 @@
+ICU : llm_response (2410, 92, {'situation': "In the ICU, a patient is lying on the floor next to a fallen walker, seemingly distressed. The patient is 
+dressed in light-colored hospital attire and appears to be in pain or discomfort. There is no immediate medical staff presence to assist the patient.
+The patient's body language suggests a possible fall or sudden distress, which could indicate a critical situation.", 'Emergency_Type': 'Emergency'})
+timetaken 0:00:04.779110
+
+Emergency Ward:llm_response (2774, 152, {'situation': "In the emergency ward, two nurses are standing at the reception desk, one is writing on a clipboard while the other is looking at a patient who is lying on a bed. The patient appears to be stable and is not showing any immediate signs of distress. Nearby, another patient is lying on a bed with a pillow under their head, also appearing stable. Two doctors are standing at the desk, one is holding a pen and paper, possibly discussing the patient's condition. The environment is calm, and there are no signs of immediate medical emergencies. The staff members are engaged in routine activities, and the patients are not exhibiting any signs of distress.", 'Emergency_Type': 'Non-Emergency'})
+
+General Ward:: llm_response (2839, 113, {'situation': 'The scene depicts a hospital ward with multiple patients lying in hospital beds. Some patients appear to be resting, while others are sitting up and seem to be in conversation. Medical staff, including doctors and nurses, are present and appear to be attending to the patients. There is no visible sign of distress among the patients, and the medical staff seem to be managing routine activities. The environment is well-lit, and the patients are receiving attention from the staff.', 'Emergency_Type': 'Non-Emergency'})
+
+Reception:llm_response (2711, 94, {'situation': 'In the hospital reception area, several individuals are present. A man is standing and looking over the reception counter towards a seated man, possibly a receptionist. Another man is seated at a desk, engaged in conversation with another individual. There are multiple individuals standing and talking near the water dispenser. The overall atmosphere suggests routine activities with no immediate signs of distress or emergencies.', 'Emergency_Type': 'Non-Emergency'})
+
+Pharmacy Front::llm_response (2720, 85, {'situation': 'A pharmacist is seen bending over and picking up items from a lower shelf, which suggests they are restocking or organizing the pharmacy. There are no visible patients or other individuals interacting with the pharmacist at this moment. The pharmacy appears to be in a routine state with no immediate signs of distress, conflict, or emergency.', 'Emergency_Type': 'Non-Emergency'})
+
+Pharmacy Back: llm_response (2256, 90, {'situation': 'The image depicts the back office of a hospital pharmacy. Pharmacists and pharmacy technicians
+are organizing and restocking shelves with various medication bottles. There are no visible individuals interacting directly with each other.
+The pharmacy is well-lit, and the environment appears clean and orderly. There are no signs of distress or unusual activities that would indicate 
+an emergency.', 'Emergency_Type': 'Non-Emergency'})
+timetaken 0:00:04.296462

@@ -87,9 +87,9 @@ def upload_to_s3(image_bytes, bucket_name, s3_key):
             temp_file_path = temp_file.name
 
         s3_client.upload_file(temp_file_path, bucket_name, s3_key)
-        s3_url = f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
-        print(f"Uploaded processed image to: {s3_url}")
-        return s3_url
+        #s3_url = f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
+        print(f"Uploaded processed image.")
+        return None
     except NoCredentialsError:
         print("AWS credentials not found. Please configure your credentials.")
         return None
@@ -120,7 +120,7 @@ def crowd_detection(item: Item):
 
         # Upload the processed image to S3
         processed_s3_key = s3_key.replace("original", "processed")
-        processed_s3_url = upload_to_s3(processed_image, bucket_name, processed_s3_key)
+        upload_to_s3(processed_image, bucket_name, processed_s3_key)
 
         return {
             "crowd_status": crowd_status,

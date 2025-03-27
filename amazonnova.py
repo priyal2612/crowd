@@ -79,45 +79,69 @@ def claude_prompt_image(prompt, file_base64):
 
 def process_video_frames(frames):
     batch_size = 5
-    summary = []
+    all_batches_summary = []
 
+    # First pass: Process all frame batches
     for i in range(0, len(frames), batch_size):
         batch_files = frames[i:i + batch_size]
         file_base64 = [image_to_base64(img) for img in batch_files]
 
-        print(f"Processing batch {i // batch_size + 1}: {batch_files}")
-
-        prompt="""Analyze these five consecutive video frames and provide a structured summary.Identify key objects, 
-        human actions, and any significant events or changes observed between frames. Output the response in JSON format:
-        {  
-        'summary': 'A brief description of the scene and any changes.',  
-        'objects': ['List of detected objects, e.g., person, chair, screen'],  
-        'actions': ['List of actions occurring, e.g., walking, sitting, talking'],  
-        'notable_changes': 'Describe any movement, new objects appearing/disappearing, or major alterations in the scene.'  
-        }  
-        Ensure accuracy and consistency across frames."""
+        print(f"Processing batch {i//batch_size + 1}/{len(frames)//batch_size + 1}")
+        
+        prompt = """Analyze these video frames and provide structured insights about:
+        - Main objects/people present
+        - Notable actions/activities
+        - Significant environmental details
+        - Any important changes between frames
+        Return in JSON format."""
         
         model_response = claude_prompt_image(prompt, file_base64)
         
         if model_response is not None:
             try:
-                raw_text = model_response["output"]["message"]["content"][0]["text"].replace('\n', '').replace('\\"', '"')
-                match = re.search(r"\{.*\}", raw_text, re.DOTALL)
-                if match:
-                    raw_text = match.group(0)
-                response_dict = json.loads(raw_text)
-                summary.append(response_dict)
+                raw_text = model_response["output"]["message"]["content"][0]["text"]
+                json_match = re.search(r'\{.*\}', raw_text, re.DOTALL)
+                if json_match:
+                    batch_summary = json.loads(json_match.group())
+                    all_batches_summary.append(batch_summary)
             except Exception as e:
-                print("llm_resposne:", raw_text)
-                print("Unexpected error:", str(e))
+                print(f"Error processing batch {i//batch_size + 1}: {str(e)}")
 
-    return summary
+    # Second pass: Create consolidated summary
+    final_prompt = f"""Create a comprehensive video summary from this analysis data: 
+    {json.dumps(all_batches_summary, indent=2)}
+    
+    Include these elements:
+    1. Overall scene description
+    2. Main subjects/objects
+    3. Key activities/events
+    4. Notable environmental details
+    5. Important timeline changes
+    
+    Use natural language paragraphs with clear structure."""
+    
+    try:
+        final_response = runtime.invoke_model(
+            modelId="us.amazon.nova-lite-v1:0",
+            body=json.dumps({
+                "system": [{"text": system_prompt}],
+                "messages": [{
+                    "role": "user",
+                    "content": [{"text": final_prompt}]
+                }]
+            })
+        )
+        final_summary = json.loads(final_response["body"].read())["output"]["message"]["content"][0]["text"]
+        return final_summary
+    except Exception as e:
+        print(f"Error generating final summary: {e}")
+        return "Could not generate final summary"
 
 
 if __name__ == "__main__":
-    video_path = "C:\\Users\\hp\\OneDrive\\Desktop\\photos iphone\\manali\\IMG_0138.MOV"  # Change this to your video file path
+    video_path = "C:\\Users\\hp\\Videos\\Screen Recordings\\Screen Recording 2025-02-22 014113.mp4"
     output_folder = "output_frames"
-    frame_interval = 30  # Extract every 30th frame
+    frame_interval = 30
 
     start_time = datetime.now()
     
@@ -125,8 +149,7 @@ if __name__ == "__main__":
 
     if extracted_frames:
         video_summary = process_video_frames(extracted_frames)
-        print("\n🔹 Final Video Summary:")
-        for idx, scene in enumerate(video_summary, 1):
-            print(f"\nScene {idx}: {scene}")
+        print("\n🎥 Final Video Summary:")
+        print(video_summary)
 
     print("\n⏳ Total Time Taken:", datetime.now() - start_time)
